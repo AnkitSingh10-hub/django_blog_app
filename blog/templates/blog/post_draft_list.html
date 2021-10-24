@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <title>Blog Project</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        {# MEDIUM STYLE EDITOR#}
+        <script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+
+        {# Custom CSS#}
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+        {# Fonts#}
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Russo+One" rel="stylesheet">
+
+
+
+
+
+  <body id="bg" style="background-image: url('{% static 'image/main123.jpg'%}')">
+
+
+  <nav class="navbar navbar-inverse techfont custom-navbar">
+    <div class="container">
+
+
+      <ul class="nav navbar-nav">
+        <li><a class='navbar-brand bigbrand' href="{% url 'post_list' %}">Dashboard</a></li>
+        <li><a href="{% url 'about'%}">About</a></li>
+        <li><a href="https://www.github.com">Github</a></li>
+        <li><a href="https://www.linkedin.com">LinkedIn</a></li>
+
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'post_new' %}" >New Post</a>
+        </li>
+
+        <li>
+          <a href="{% url 'post_draft_list' %}">Drafts</a>
+        </li>
+        <li>
+          <a href="{% url 'logout' %}" >Log out</a>
+        </li>
+
+        <li>
+          <a >Welcome<br>{{ user.username }}</a>
+        </li>
+          {% else %}
+          <li><a class='nav navbar-right' href="{% url 'login' %}"><span class="glyphicon glyphicon-user">𝗦𝗜𝗚𝗡𝗜𝗡</span></a></li>
+          <li><a class='nav navbar-right' href="{% url 'register' %}"><span class="glyphicon glyphicon-edit">𝗦𝗜𝗚𝗡𝗨𝗣</span></a></li>
+
+          {% endif %}
+
+      </ul>
+  </div>
+</nav>
+
+  {# The actual blog posts#}
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                  <div class="blog_posts">
+<!--inheritance-->
+<div class="centerstage">
+    {% for post in post_list %}
+        <div class="post postdate">
+
+            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <p class="date">Created date : {{ post.created_date|date:'d-m-Y' }}</p>
+             <p> Author: {{post.author}} </p>
+
+            <p><a href="{% url 'post_detail' pk=post.pk %}">Comments : {{ post.approve_comments.count }}</a></p>
+
+        </div>
+  {% endfor %}
+    </div>
+
+
+
+                  </div>
+
+                </div>
+            </div>
+        </div>
+
+{# SCRIPTS#}
+
+<script type="text/javascript" src="{% static 'js/blog.js' %}"></script>
+
+</body>
+</html>
